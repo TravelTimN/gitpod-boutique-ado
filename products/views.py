@@ -15,6 +15,8 @@ def all_products(request):
     direction = None
 
     if request.GET:
+
+        # sorting
         if "sort" in request.GET:
             sortkey = request.GET["sort"]
             sort = sortkey
@@ -29,16 +31,19 @@ def all_products(request):
                 direction = request.GET["direction"]
                 if direction == "desc":
                     sortkey = f"-{sortkey}"
-                products = products.order_by(sortkey)
+            products = products.order_by(sortkey)
 
+        # filter by category
         if "category" in request.GET:
             categories = request.GET["category"].split(",")
             products = products.filter(category__name__in=categories)
             categories = Category.objects.filter(name__in=categories)
 
+        # image or no image
         if "hasimage" in request.GET:
-            products = products.exclude(image__icontains="noimage.png")
+            products = products.exclude(image="")
 
+        # query search
         if "q" in request.GET:
             query = request.GET["q"]
             if not query:

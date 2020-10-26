@@ -28,7 +28,7 @@
                 <div class="row mt-1 mb-2">
                     <div class="col-12 col-md-4 mt-3 text-center text-md-right">
                         <div class="custom-control custom-switch">
-                            <input type="checkbox" {% if 'hasimage' in request.GET %}checked="checked" onclick="window.location.assign('{% url 'products' %}')"{% else %}onclick="window.location.assign('{% url 'products' %}?hasimage=true')"{% endif %} class="custom-control-input" id="has-image">
+                            <input type="checkbox" class="custom-control-input" id="has-image" {% if 'hasimage' in request.GET %}checked{% endif %}>
                             <label class="custom-control-label" for="has-image">Has Image</label>
                         </div>
                     </div>
@@ -139,6 +139,23 @@
                 currentUrl.searchParams.delete("direction");
                 window.location.replace(currentUrl);
             }
+        });
+
+        // toggle 'hasImage' search
+        $("#has-image").click(function() {
+            hasImage = (window.location.search.indexOf("hasimage=true") > -1) ? true : false;
+            pathname = window.location.pathname;
+            search = window.location.search;
+                if (search) { // has search params
+                    if (hasImage) { // params contain 'hasimage=true'
+                        url = `${pathname}${search.replace(/(\&|\?)hasimage\=true/gi, "")}`;
+                    } else { // params do not contain 'hasimage=true'
+                        url = `${pathname}${search}&hasimage=true`;
+                    }
+                } else { // no search params
+                    url = `${pathname}?hasimage=true`;
+                }
+            window.location.assign(url);
         });
     </script>
 {% endblock %}
