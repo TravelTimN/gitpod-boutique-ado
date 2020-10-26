@@ -89,9 +89,10 @@ label[for="has-image"] {
     z-index: -1;
 }
 
-a.category-badge > span.badge:hover {
-    background: #212529 !important;
-    color: white !important;
+a.category-badge > span.badge:hover,
+.btt-button:hover {
+    background: rgba(var(--shark), 1) !important;
+    color: rgba(var(--white), 1) !important;
 }
 
 .btt-button {
@@ -100,12 +101,23 @@ a.category-badge > span.badge:hover {
     position: fixed;
     bottom: 10px;
     right: 10px;
+    transition: all 0.2s ease-in-out;
 }
 
-.btt-link,
+.btt-button a.btt-link,
+.btt-button a.btt-link i,
 .update-link,
 .remove-item {
     cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.btt-button a.btt-link:hover {
+    text-decoration: none;
+}
+
+.btt-button a.btt-link:hover i {
+    color: rgba(var(--white), 1) !important;
 }
 
 

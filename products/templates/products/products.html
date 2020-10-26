@@ -111,7 +111,7 @@
             </div>
         </div>
     </div>
-    <div class="btt-button shadow sm rounded-0 border border-black">
+    <div class="btt-button shadow-sm rounded-0 border border-black">
         <a class="btt-link d-flex h-100">
             <i class="fas fa-arrow-up text-black mx-auto my-auto"></i>
         </a>
@@ -119,11 +119,15 @@
 {% endblock %}
 
 {% block custom_js %}
-    {{ block.super }}
+{{ block.super }}
     <script>
+
+        // scroll to top button
         $(".btt-link").click(function() {
             window.scrollTo(0,0);
         });
+
+        // change URL based on dropdown selection
         $("#sort-selector").change(function() {
             let selector = $(this);
             let currentUrl = new URL(window.location);
@@ -133,29 +137,27 @@
                 let direction = selectedVal.split("_")[1];
                 currentUrl.searchParams.set("sort", sort);
                 currentUrl.searchParams.set("direction", direction);
-                window.location.replace(currentUrl);
             } else {
                 currentUrl.searchParams.delete("sort");
                 currentUrl.searchParams.delete("direction");
-                window.location.replace(currentUrl);
             }
+            window.location.replace(currentUrl);
         });
 
-        // toggle 'hasImage' search
+        // toggle-switch for 'has-image' (only show products with images)
         $("#has-image").click(function() {
-            hasImage = (window.location.search.indexOf("hasimage=true") > -1) ? true : false;
-            pathname = window.location.pathname;
-            search = window.location.search;
-                if (search) { // has search params
-                    if (hasImage) { // params contain 'hasimage=true'
-                        url = `${pathname}${search.replace(/(\&|\?)hasimage\=true/gi, "")}`;
-                    } else { // params do not contain 'hasimage=true'
-                        url = `${pathname}${search}&hasimage=true`;
-                    }
-                } else { // no search params
-                    url = `${pathname}?hasimage=true`;
+            let currentUrl = new URL(window.location);
+            let search = currentUrl.search;
+            if (search) { // has search params
+                if (search.indexOf("hasimage=true") > -1) { // searchParams contain 'hasimage=true'
+                    currentUrl.searchParams.delete("hasimage");
+                } else { // searchParams do not contain 'hasimage=true'
+                    currentUrl.searchParams.set("hasimage", true);
                 }
-            window.location.assign(url);
+            } else { // no searchParams
+                currentUrl.searchParams.set("hasimage", true);
+            }
+            window.location.replace(currentUrl);
         });
     </script>
 {% endblock %}
