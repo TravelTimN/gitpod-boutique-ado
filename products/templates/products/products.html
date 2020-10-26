@@ -26,13 +26,7 @@
         <div class="row">
             <div class="col-10 offset-1 product-container">
                 <div class="row mt-1 mb-2">
-                    <div class="col-12 col-md-4 mt-3 text-center text-md-right">
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="has-image" {% if 'hasimage' in request.GET %}checked{% endif %}>
-                            <label class="custom-control-label" for="has-image">Has Image</label>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-4 my-auto order-md-last d-flex justifty-content-center justify-content-md-end">
+                    <div class="col-12 col-md-4 my-auto order-md-last d-flex justify-content-center justify-content-md-end">
                         <div class="sort-select-wrapper w-50">
                             <select id="sort-selector" class="custom-select custom-select-sm rounded-0 border border-{% if current_sorting != 'None_None' %}info{% else %}black{% endif %}">
                                 <option value="reset" {% if current_sorting == 'None_None' %}selected{% endif %}>Sort by...</option>
@@ -47,12 +41,18 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-12 col-md-4 mt-3 text-center text-md-right">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="has-image" {% if 'hasimage' in request.GET %}checked{% endif %}>
+                            <label class="custom-control-label" for="has-image">Has Image</label>
+                        </div>
+                    </div>
                     <div class="col-12 col-md-4 order-md-first">
                         <p class="text-muted mt-3 text-center text-md-left">
                             {% if search_term or current_categories or current_sorting != 'None_None' %}
                                 <span class="small"><a href="{% url 'products' %}">Products Home</a> | </span>
                             {% endif %}
-                            {{ products|length }} Products{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}
+                            {{ products|length }} Product{% if products|length != 1 %}s{% endif %}{% if search_term %} found for <strong>"{{ search_term }}"</strong>{% endif %}
                         </p>
                     </div>
                 </div>
