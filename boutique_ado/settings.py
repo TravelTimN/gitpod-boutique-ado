@@ -1,8 +1,12 @@
 import os
 
+if os.path.exists(".env"):
+    from dotenv import load_dotenv
+    load_dotenv()
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = "dsp3tpf6g1pr40w1)wk8ymd2azc^w@5hlz*xh9w2q$!=o1fdo+"
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = True
 
