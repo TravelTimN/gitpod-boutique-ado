@@ -1,6 +1,6 @@
 import os
 
-if os.path.exists(".env"):
+if os.path.exists("env.py"):
     import env
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
