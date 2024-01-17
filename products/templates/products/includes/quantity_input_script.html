@@ -1,5 +1,15 @@
 <script>
 
+    // force qty_input to only be 0-99
+    $(".qty_input").keyup(function() {
+        let inputVal = $(this).val();
+        if (inputVal < 0 || inputVal > 99 || inputVal.length > 2) {
+            $(this).val($(this).attr("min"));
+        } else {
+            $(this).val(inputVal);
+        }
+    });
+
     // Disable +/- buttons outside of 1-99 range
     function handleEnableDisable(itemId) {
         let currentValue = parseInt($(`#id_qty_${itemId}`).val());
@@ -26,7 +36,12 @@
     $(".increment-qty").click(function(e) {
         e.preventDefault();
         let closestInput = $(this).closest(".input-group").find(".qty_input")[0];
-        let currentValue = parseInt($(closestInput).val());
+        let currentValue;
+        if ($(closestInput).val() == "") {
+            currentValue = parseInt($(closestInput).attr("min") - 1);
+        } else {
+            currentValue = parseInt($(closestInput).val());
+        }
         $(closestInput).val(currentValue + 1);
         let itemId = $(this).data("item_id");
         handleEnableDisable(itemId);
@@ -36,7 +51,12 @@
     $(".decrement-qty").click(function(e) {
         e.preventDefault();
         let closestInput = $(this).closest(".input-group").find(".qty_input")[0];
-        let currentValue = parseInt($(closestInput).val());
+        let currentValue;
+        if ($(closestInput).val() == "") {
+            currentValue = parseInt($(closestInput).attr("min")) + 1;
+        } else {
+            currentValue = parseInt($(closestInput).val());
+        }
         $(closestInput).val(currentValue - 1);
         let itemId = $(this).data("item_id");
         handleEnableDisable(itemId);
